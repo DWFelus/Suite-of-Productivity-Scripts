@@ -92,6 +92,10 @@ echo Setting up application pathing...
 			set "timecheckInterval=10"
 		
 			:: A-J	
+				set adobeReader= start cmd /c "C:\Program Files\Adobe\Acrobat DC\Acrobat\Acrobat.exe"
+				set "loadTimeAdobeReader=15"
+				set anki= start cmd /c "C:\Program Files\Anki\anki.exe"
+				set "loadTimeAnki=10"
 				set encoder2020=start cmd /c "C:\Program Files\Adobe\Adobe Media Encoder 2020\Adobe Media Encoder.exe"
 				set "loadTimeEncoder2020=90"
 				set "delayEncoder=30"
@@ -121,6 +125,7 @@ echo Setting up application pathing...
 				set pomotroid=start cmd /c "%LocalAppData%\Programs\pomotroid\Pomotroid.exe"
 				set "loadTimePomotroid=7"
 				set "runTimeahkMovePomotroid=8"
+				set TurnOffMonitor=start cmd /c "%portable%\GitPortable\Turn Off Monitor.exe"
 			
 			:: U-Z
 				set visualStudio=start cmd /c "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\devenv.exe"
@@ -260,7 +265,7 @@ echo.
 				IF %shouldRunDisplayFusion%==yes (call :DisplayFusion)				
 				IF %overrideClicks%==yes (call :OverrideControls)
 				IF %shouldStartJDownloader%==yes (call :jdownloader)
-						
+		%TurnOffMonitor%				
 		call :MusicalTimeProgrammer
 		call :Notion
 		call :ahkUtility		
@@ -415,6 +420,8 @@ echo.
 				call :GitbashStart				
 				call :GithubDesktopStart					
 				call :CsharpNotebookStart
+				call :AnkiStart
+				call :AdobeReaderStart
 				call :FirefoxWorkspaceStart
 				call :VisualStudioStart
 				exit /b
@@ -529,7 +536,21 @@ echo.
 		%cmder%					
 		timeout %loadTimeCmder%
 		echo.
-		exit /b					
+		exit /b	
+
+	:AdobeReaderStart
+		echo Running Adobe Reader...
+		%adobeReader%					
+		timeout %loadTimeAdobeReader%
+		echo.
+		exit /b		
+
+	:AnkiStart
+		echo Running Anki...
+		%anki%					
+		timeout %loadTimeAnki%
+		echo.
+		exit /b				
 	
 	:jdownloader
 		echo Running jdownloader...
@@ -672,6 +693,7 @@ echo.
 	call :ahkScreenshot
 	call :ahkHideWindows
 	IF %recordStartup%==yes (call :RecStartup)
+	%TurnOffMonitor%	
 
 
 :timecheckAfternoon
